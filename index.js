@@ -30,7 +30,7 @@
 /**
  * Dynamically add rows to an exiting table 
  * @param {the id of the table we want to modify} tableId 
- * @param {the information from witch the price type and ProductId are generated from} productArray 
+ * @param {the information from witch the price type and ProductId are generated from} productArray
  */
 
 function updateTable(tableId,productArray){
@@ -61,5 +61,5 @@ function updateTable(tableId,productArray){
         tr.appendChild(td3);
         tr.appendChild(td4);
         tableBody.appendChild(tr);
-    }  
+    }
 }
