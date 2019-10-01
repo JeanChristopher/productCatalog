@@ -39,6 +39,7 @@
         
         /**
          * Returns an array containing a specified number of randomized products
+         * @param {num} number of products desired 
          * @returns {Promise[object]} of price and types of the products
          */
 
