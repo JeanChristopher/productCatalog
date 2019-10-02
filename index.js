@@ -5,6 +5,14 @@
  * @copyright Copyright (c) 2019 REV; J.C. Amany
  */
 
+/*
+* get a Promise containing all of the products in the catalog
+* populate the list of all products table with the array of products catalog
+ */
+api.searchAllProducts().then(function(value){
+    updateTable('allTable',value);
+});
+
 /** 
  * allow to create table headers
  * @param {the id of the table we want to fill} tableId 
@@ -50,7 +58,8 @@ function updateTable(tableId,productArray){
         var td4 = document.createElement('button');
 
         td4.addEventListener('click',function(){
-            
+            // execute a processSearch() method call when an Examine button is pressed inside any of the tables' rows.
+            processSearch(this.parentNode.firstChild.innerHTML);
         });
         td1.appendChild(document.createTextNode(productArray[i].id));
         td2.appendChild(document.createTextNode(productArray[i].type));
@@ -64,10 +73,63 @@ function updateTable(tableId,productArray){
     }
 }
 
-/*
-* get a Promise containing all of the products in the catalog
-* populate the list of all products table with the array of products catalog
+/**
+ * Edits the html of the examined product and fills it with the product argument
+ * @param {name of the product we want information about} product 
  */
-api.searchAllProducts().then(function(value){
-    updateTable('allTable',value);
+
+function updateExaminedText(product){
+    var outputString = "Product Id: " + product.id;
+    outputString += "<br> Price: " + product.price;
+    outputString += "<br> Type: " + product.type;
+    document.getElementById("productText").innerHTML = outputString;
+}
+
+/**
+ * get intersection of similar prised and similar typed arrays
+ * @param {the first array we want to find matching products in} arrA 
+ * @param {the second array we want to find matching products in} arrB 
+ * @param {id for matching} searchedId 
+ */
+
+function getIntersection(arrA,arrB,searchedId){
+
+    var samePrice = arrA;
+    var sameType = arrB;
+    var similarArray = [];
+    samePrice.forEach(function(obj1){
+        sameType.forEach(function(obj2){
+            if(obj1.id == obj2.id && obj1.id != searchedId)
+                similarArray.push(obj1);     
+        });
+    });
+
+    return similarArray;
+
+}
+
+/**
+ * 
+ * @param {serched product id} searchId 
+ */
+
+function processSearch(searchId){
+    api.searchProductById(searchId).then(function(val){
+        return Promise.all([api.searchProductsByPrice(val.price,50),api.searchProductsByType(val.type),val]);
+    }).then(function(val){
+        var similarArray = getIntersection(val[0],val[1],val[2].id);
+        updateExaminedText(val[2]);
+        updateTable('similarTable',similarArray);
+    }).catch(function(val){
+        alert(val);
+    });
+}
+
+// click event for the search button
+document.getElementById("inputButton").addEventListener('click',function(){
+    processSearch(document.getElementById('input').value);
 });
+
+// 
+processSearch(this.parentNode.firstChild.innerHTML);
+
