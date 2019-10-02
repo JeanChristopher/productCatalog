@@ -63,3 +63,11 @@ function updateTable(tableId,productArray){
         tableBody.appendChild(tr);
     }
 }
+
+/*
+* get a Promise containing all of the products in the catalog
+* populate the list of all products table with the array of products catalog
+ */
+api.searchAllProducts().then(function(value){
+    updateTable('allTable',value);
+});
