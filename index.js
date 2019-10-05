@@ -140,13 +140,13 @@ function processSearchType(searchType){
     });
 }
 
-function processSearchType(searchPrice){
+function processSearchPrice(searchPrice){
     api.searchProductsByPrice(searchPrice, 50).then(function(valPrice){
         console.log(valPrice);
         var similarPriceArray = valPrice;  
         updateTable('similarTable',similarPriceArray);
-    }).catch(function(valType){
-        alert(valType);
+    }).catch(function(valPrice){
+        alert(valPrice);
     });
 }
 
@@ -160,7 +160,7 @@ document.getElementById("inputTypeButton").addEventListener('click',function(){
 });
 
 document.getElementById("inputPriceButton").addEventListener('click',function(){
-    processSearchType(document.getElementById('inputPrice').value);
+    processSearchPrice(document.getElementById('inputPrice').value);
 });
 
 // 
