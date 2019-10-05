@@ -133,8 +133,18 @@ function processSearch(searchId){
 function processSearchType(searchType){
     api.searchProductsByType(searchType).then(function(valType){
         console.log(valType);
-        var similarArray = valType;  
-        updateTable('similarTable',similarArray);
+        var similarTypeArray = valType;  
+        updateTable('similarTable',similarTypeArray);
+    }).catch(function(valType){
+        alert(valType);
+    });
+}
+
+function processSearchType(searchPrice){
+    api.searchProductsByPrice(searchPrice, 50).then(function(valPrice){
+        console.log(valPrice);
+        var similarPriceArray = valPrice;  
+        updateTable('similarTable',similarPriceArray);
     }).catch(function(valType){
         alert(valType);
     });
@@ -147,6 +157,10 @@ document.getElementById("inputIdButton").addEventListener('click',function(){
 
 document.getElementById("inputTypeButton").addEventListener('click',function(){
     processSearchType(document.getElementById('inputType').value);
+});
+
+document.getElementById("inputPriceButton").addEventListener('click',function(){
+    processSearchType(document.getElementById('inputPrice').value);
 });
 
 // 
