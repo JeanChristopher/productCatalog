@@ -132,4 +132,3 @@ document.getElementById("inputButton").addEventListener('click',function(){
 
 // 
 processSearch(this.parentNode.firstChild.innerHTML);
-
