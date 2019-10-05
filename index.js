@@ -109,32 +109,8 @@ function getIntersection(arrA,arrB,searchedId){
 }
 
 /**
- * 
- * @param {the first array we want to find matching products in} arrA 
- * @param {the second array we want to find matching products in} arrB 
- * @param {type of the product we're searching} searchedType 
- */
-
-function getTypeIntersection(arrA,arrB,searchedType){
-
-    var samePrice = arrA;
-    var sameType = arrB;
-    var similarArray = [];
-    samePrice.forEach(function(obj1){
-        sameType.forEach(function(obj2){
-            if(obj1.type == obj2.type && obj1.type != searchedType)
-                similarArray.push(obj1);     
-        });
-    });
-
-    return similarArray;
-
-}
-
-
-/**
  * find a product by inserting his ID on the id field
- * @param {serched product id} searchId 
+ * @param {searched product id} searchId 
  */
 
 function processSearch(searchId){
@@ -148,23 +124,29 @@ function processSearch(searchId){
         alert(val);
     });
 }
-/*
+
+/**
+ * Search a product given a certain type
+ * @param {Type of products we're searching} searchType 
+ */
+
 function processSearchType(searchType){
     api.searchProductsByType(searchType).then(function(valType){
-        // return a promise containing an array of catalog with the same type
-        return Promise.resolve([api.searchProductsByPrice(valType.price,50),api.searchProductById(valType.id),api.searchProductsByType(valType),]).then(function(valType){
-            var similarTypeArray = getTypeIntersection(val[0],val[1],val[2].type);
-
-        })
-
-
+        console.log(valType);
+        var similarArray = valType;  
+        updateTable('similarTable',similarArray);
+    }).catch(function(valType){
+        alert(valType);
     });
-}*/
+}
 
 // click event for the search button
-document.getElementById("inputButton").addEventListener('click',function(){
-    processSearch(document.getElementById('input').value);
+document.getElementById("inputIdButton").addEventListener('click',function(){
+    processSearch(document.getElementById('inputId').value);
+});
+
+document.getElementById("inputTypeButton").addEventListener('click',function(){
+    processSearchType(document.getElementById('inputType').value);
 });
 
 // 
-processSearch(this.parentNode.firstChild.innerHTML);
